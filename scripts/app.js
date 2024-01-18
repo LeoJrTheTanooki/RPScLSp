@@ -42,24 +42,28 @@ function DisplayOff(
   variable1 = dummyElm,
   variable2 = dummyElm,
   variable3 = dummyElm,
-  variable4 = dummyElm
+  variable4 = dummyElm,
+  variable5 = dummyElm
 ) {
   variable1.classList.add("d-none");
   variable2.classList.add("d-none");
   variable3.classList.add("d-none");
   variable4.classList.add("d-none");
+  variable5.classList.add("d-none");
 }
 
 function DisplayOn(
   variable1 = dummyElm,
   variable2 = dummyElm,
   variable3 = dummyElm,
-  variable4 = dummyElm
+  variable4 = dummyElm,
+  variable5 = dummyElm
 ) {
   variable1.classList.remove("d-none");
   variable2.classList.remove("d-none");
   variable3.classList.remove("d-none");
   variable4.classList.remove("d-none");
+  variable5.classList.remove("d-none");
 }
 
 export { DisplayOff };

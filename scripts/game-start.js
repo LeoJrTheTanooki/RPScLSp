@@ -5,136 +5,125 @@ let dialogueBox = document.getElementById("main-text");
 function GameStart(gameCountGoal, duelMode) {
   let userInputField = document.getElementById("userInputField");
   let rivalInputField = document.getElementById("rivalInputField");
+  let rockBtn = document.getElementById("rock-btn");
+  let paperBtn = document.getElementById("paper-btn");
+  let scissorsBtn = document.getElementById("scissors-btn");
+  let lizardBtn = document.getElementById("lizard-btn");
+  let spockBtn = document.getElementById("spock-btn");
   let userScore = 0;
   let rivalScore = 0;
   let tie;
   let userValid = false;
   let rivalValid = false;
   let userInput;
-  let rivalInput;
-  DisplayOn(userInputField);
+  let rivalInput = "paper";
+  // DisplayOn(userInputField);
+  Player1Turn();
   dialogueBox.textContent =
     "Choose between Rock, Paper, Scissors, Lizard, or Spock";
 
-  userInputField.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      userInput = userInputField.value.toLowerCase();
-      if (!userValid) {
-        userInputField.value = "";
-        if (
-          userInput === "rock" ||
-          userInput === "paper" ||
-          userInput === "scissors" ||
-          userInput === "lizard" ||
-          userInput === "spock"
-        ) {
-          // userInputField.placeholder = "Submitted";
-          userValid = true;
-          DisplayOff(userInputField);
-          if (duelMode) {
-            Player2Turn(userInput);
-          } else {
-            ComputerTurn(userInput);
-          }
-          // GameJudge(userInput, rivalInput);
-          // if (rivalValid) {
-          //   GameJudge(userInput, rivalInput);
-          // } else {
-          //   console.log("Awaiting Rival's Choice");
-          // }
-        } else {
-          dialogueBox.textContent = "Invalid Input";
-        }
-      }
+  function ChoiceButtons(player1Turn, input, method) {
+    if (player1Turn) {
+      userInput = input;
+    } else {
+      rivalInput = input;
     }
-  });
+    method();
+    console.log(player1Turn, input, method);
+  }
 
-  function Player2Turn(userInput) {
-    DisplayOn(rivalInputField);
-    rivalInputField.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        if (!rivalValid) {
-          rivalInput = rivalInputField.value.toLowerCase();
-          rivalInputField.value = "";
-          if (
-            rivalInput === "rock" ||
-            rivalInput === "paper" ||
-            rivalInput === "scissors" ||
-            rivalInput === "lizard" ||
-            rivalInput === "spock"
-          ) {
-            rivalInputField.placeholder = "Submitted";
-            rivalValid = true;
-            if (userValid) {
-              GameJudge(userInput, rivalInput);
-            } else {
-              console.log("Awaiting User's Choice");
-            }
-          } else {
-            console.log("Invalid Input");
-          }
-        }
-      }
-    });
+  function Player1Turn() {
+    DisplayOn(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
+    rockBtn.onclick = function () {
+      ChoiceButtons(true, "rock", Player2Turn);
+    };
+    paperBtn.onclick = function () {
+      ChoiceButtons(true, "paper", Player2Turn);
+    };
+    scissorsBtn.onclick = function () {
+      ChoiceButtons(true, "scissors", Player2Turn);
+    };
+    lizardBtn.onclick = function () {
+      ChoiceButtons(true, "lizard", Player2Turn);
+    };
+    spockBtn.onclick = function () {
+      ChoiceButtons(true, "spock", Player2Turn);
+    };
+  }
+
+  function Player2Turn() {
+    rockBtn.onclick = function () {
+      ChoiceButtons(false, "rock", GameJudge);
+    };
+    paperBtn.onclick = function () {
+      ChoiceButtons(false, "paper", GameJudge);
+    };
+    scissorsBtn.onclick = function () {
+      ChoiceButtons(false, "scissors", GameJudge);
+    };
+    lizardBtn.onclick = function () {
+      ChoiceButtons(false, "lizard", GameJudge);
+    };
+    spockBtn.onclick = function () {
+      ChoiceButtons(false, "spock", GameJudge);
+    };
   }
 
   function ComputerTurn(userInput) {
     dialogueBox.textContent = "Whoops... we don't have a computer yet";
   }
 
-  function GameJudge(userInputPar, rivalInputPar) {
-    switch (userInputPar) {
+  function GameJudge() {
+    switch (userInput) {
       case "rock":
-        if (rivalInputPar === "rock") {
+        if (rivalInput === "rock") {
           tie = true;
-        } else if (rivalInputPar === "scissors" || rivalInputPar === "lizard") {
+        } else if (rivalInput === "scissors" || rivalInput === "lizard") {
           userScore++;
-        } else if (rivalInputPar === "paper" || rivalInputPar === "spock") {
+        } else if (rivalInput === "paper" || rivalInput === "spock") {
           rivalScore++;
         }
         break;
       case "paper":
-        if (rivalInputPar === "paper") {
+        if (rivalInput === "paper") {
           tie = true;
-        } else if (rivalInputPar === "rock" || rivalInputPar === "spock") {
+        } else if (rivalInput === "rock" || rivalInput === "spock") {
           userScore++;
-        } else if (rivalInputPar === "scissors" || rivalInputPar === "lizard") {
+        } else if (rivalInput === "scissors" || rivalInput === "lizard") {
           rivalScore++;
         }
         break;
       case "scissors":
-        if (rivalInputPar === "scissors") {
+        if (rivalInput === "scissors") {
           tie = true;
-        } else if (rivalInputPar === "paper" || rivalInputPar === "lizard") {
+        } else if (rivalInput === "paper" || rivalInput === "lizard") {
           userScore++;
-        } else if (rivalInputPar === "rock" || rivalInputPar === "spock") {
+        } else if (rivalInput === "rock" || rivalInput === "spock") {
           rivalScore++;
         }
         break;
       case "lizard":
-        if (rivalInputPar === "lizard") {
+        if (rivalInput === "lizard") {
           tie = true;
-        } else if (rivalInputPar === "paper" || rivalInputPar === "spock") {
+        } else if (rivalInput === "paper" || rivalInput === "spock") {
           userScore++;
-        } else if (rivalInputPar === "rock" || rivalInputPar === "scissors") {
+        } else if (rivalInput === "rock" || rivalInput === "scissors") {
           rivalScore++;
         }
         break;
       case "spock":
-        if (rivalInputPar === "spock") {
+        if (rivalInput === "spock") {
           tie = true;
-        } else if (rivalInputPar === "rock" || rivalInputPar === "scissors") {
+        } else if (rivalInput === "rock" || rivalInput === "scissors") {
           userScore++;
-        } else if (rivalInputPar === "paper" || rivalInputPar === "lizard") {
+        } else if (rivalInput === "paper" || rivalInput === "lizard") {
           rivalScore++;
         }
         break;
       default:
         console.log("Invalid Input");
     }
-    console.log(
-      `Player 1 chose ${userInputPar}, Player 2 chose ${rivalInputPar}`
-    );
+    console.log(`Player 1 chose ${userInput}, Player 2 chose ${rivalInput}`);
     if (tie === true) {
       console.log("You tied, try again");
       tie = false;
@@ -152,11 +141,8 @@ function GameStart(gameCountGoal, duelMode) {
     }
     userInput = "";
     rivalInput = "";
-    userInputField.placeholder = "";
-    rivalInputField.placeholder = "";
-    userValid = false;
-    rivalValid = false;
-    DisplayOn(userInputField);
+    Player1Turn();
+    // DisplayOn(userInputField);
   }
 }
 export { GameStart };
