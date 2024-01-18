@@ -5,6 +5,8 @@ let dialogueBox = document.getElementById("main-text");
 function GameStart(gameCountGoal, duelMode) {
   let userInputField = document.getElementById("userInputField");
   let rivalInputField = document.getElementById("rivalInputField");
+  let userScoreTally = document.getElementById("user-score-tally");
+  let rivalScoreTally = document.getElementById("rival-score-tally");
   let rockBtn = document.getElementById("rock-btn");
   let paperBtn = document.getElementById("paper-btn");
   let scissorsBtn = document.getElementById("scissors-btn");
@@ -19,6 +21,9 @@ function GameStart(gameCountGoal, duelMode) {
   let rivalInput = "paper";
   // DisplayOn(userInputField);
   Player1Turn();
+  DisplayOn(userScoreTally, rivalScoreTally);
+  userScoreTally.textContent = `P1: ${userScore}`;
+  rivalScoreTally.textContent = `P2: ${rivalScore}`;
   dialogueBox.textContent =
     "Choose between Rock, Paper, Scissors, Lizard, or Spock";
 
@@ -123,24 +128,24 @@ function GameStart(gameCountGoal, duelMode) {
       default:
         console.log("Invalid Input");
     }
-    console.log(`Player 1 chose ${userInput}, Player 2 chose ${rivalInput}`);
+    dialogueBox.textContent = `Player 1 chose ${userInput}, Player 2 chose ${rivalInput}`;
     if (tie === true) {
-      console.log("You tied, try again");
+      dialogueBox.textContent = "You tied, try again";
       tie = false;
     } else if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
-      console.log(`Player 1: ${userScore}\nPlayer 2: ${rivalScore}`);
+      userScoreTally.textContent = `P1: ${userScore}`;
+      rivalScoreTally.textContent = `P2: ${rivalScore}`;
       if (userScore > rivalScore) {
-        console.log("Player 1 Wins!");
+        dialogueBox.textContent = "Player 1 Wins!";
       } else {
-        console.log("Player 2 Wins!");
+        dialogueBox.textContent = "Player 2 Wins!";
       }
       userScore = 0;
       rivalScore = 0;
     } else {
-      console.log(`Player 1: ${userScore}\nPlayer 2: ${rivalScore}`);
+      userScoreTally.textContent = `P1: ${userScore}`;
+      rivalScoreTally.textContent = `P2: ${rivalScore}`;
     }
-    userInput = "";
-    rivalInput = "";
     Player1Turn();
     // DisplayOn(userInputField);
   }
