@@ -17,7 +17,7 @@ function GameStart(gameCountGoal, duelMode) {
   let rivalScore = 0;
   let tie;
   let userInput;
-  let rivalInput = "paper";
+  let rivalInput = "Paper";
   DisplayOn(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
   Player1Turn();
   DisplayOn(userScoreTally, rivalScoreTally);
@@ -26,106 +26,113 @@ function GameStart(gameCountGoal, duelMode) {
   dialogueBox.textContent =
     "Choose between Rock, Paper, Scissors, Lizard, or Spock";
 
-  function ChoiceButtons(player1Turn, input, method) {
+  function ChoiceButtons(player1Turn, input, Method) {
     if (player1Turn) {
       userInput = input;
     } else {
       rivalInput = input;
     }
-    method();
+    Method();
   }
 
   function Player1Turn() {
     rockBtn.onclick = function () {
-      ChoiceButtons(true, "rock", Player2Turn);
+      ChoiceButtons(true, "Rock", Player2Turn);
     };
     paperBtn.onclick = function () {
-      ChoiceButtons(true, "paper", Player2Turn);
+      ChoiceButtons(true, "Paper", Player2Turn);
     };
     scissorsBtn.onclick = function () {
-      ChoiceButtons(true, "scissors", Player2Turn);
+      ChoiceButtons(true, "Scissors", Player2Turn);
     };
     lizardBtn.onclick = function () {
-      ChoiceButtons(true, "lizard", Player2Turn);
+      ChoiceButtons(true, "Lizard", Player2Turn);
     };
     spockBtn.onclick = function () {
-      ChoiceButtons(true, "spock", Player2Turn);
+      ChoiceButtons(true, "Spock", Player2Turn);
     };
   }
 
   function Player2Turn() {
-    rockBtn.onclick = function () {
-      ChoiceButtons(false, "rock", GameJudge);
-    };
-    paperBtn.onclick = function () {
-      ChoiceButtons(false, "paper", GameJudge);
-    };
-    scissorsBtn.onclick = function () {
-      ChoiceButtons(false, "scissors", GameJudge);
-    };
-    lizardBtn.onclick = function () {
-      ChoiceButtons(false, "lizard", GameJudge);
-    };
-    spockBtn.onclick = function () {
-      ChoiceButtons(false, "spock", GameJudge);
-    };
+    if (duelMode) {
+      rockBtn.onclick = function () {
+        ChoiceButtons(false, "Rock", GameJudge);
+      };
+      paperBtn.onclick = function () {
+        ChoiceButtons(false, "Paper", GameJudge);
+      };
+      scissorsBtn.onclick = function () {
+        ChoiceButtons(false, "Scissors", GameJudge);
+      };
+      lizardBtn.onclick = function () {
+        ChoiceButtons(false, "Lizard", GameJudge);
+      };
+      spockBtn.onclick = function () {
+        ChoiceButtons(false, "Spock", GameJudge);
+      };
+    } else {
+      ComputerTurn();
+    }
   }
 
-  function ComputerTurn(userInput) {
-    dialogueBox.textContent = "Whoops... we don't have a computer yet";
+  async function ComputerTurn() {
+    const promise = await fetch("https://rpslsapi.azurewebsites.net/RPSLS");
+    const data = await promise.text();
+    rivalInput = data;
+    GameJudge();
   }
 
   function GameJudge() {
     switch (userInput) {
-      case "rock":
-        if (rivalInput === "rock") {
+      case "Rock":
+        if (rivalInput === "Rock") {
           tie = true;
-        } else if (rivalInput === "scissors" || rivalInput === "lizard") {
+        } else if (rivalInput === "Scissors" || rivalInput === "Lizard") {
           userScore++;
-        } else if (rivalInput === "paper" || rivalInput === "spock") {
+        } else if (rivalInput === "Paper" || rivalInput === "Spock") {
           rivalScore++;
         }
         break;
-      case "paper":
-        if (rivalInput === "paper") {
+      case "Paper":
+        if (rivalInput === "Paper") {
           tie = true;
-        } else if (rivalInput === "rock" || rivalInput === "spock") {
+        } else if (rivalInput === "Rock" || rivalInput === "Spock") {
           userScore++;
-        } else if (rivalInput === "scissors" || rivalInput === "lizard") {
+        } else if (rivalInput === "Scissors" || rivalInput === "Lizard") {
           rivalScore++;
         }
         break;
-      case "scissors":
-        if (rivalInput === "scissors") {
+      case "Scissors":
+        if (rivalInput === "Scissors") {
           tie = true;
-        } else if (rivalInput === "paper" || rivalInput === "lizard") {
+        } else if (rivalInput === "Paper" || rivalInput === "Lizard") {
           userScore++;
-        } else if (rivalInput === "rock" || rivalInput === "spock") {
+        } else if (rivalInput === "Rock" || rivalInput === "Spock") {
           rivalScore++;
         }
         break;
-      case "lizard":
-        if (rivalInput === "lizard") {
+      case "Lizard":
+        if (rivalInput === "Lizard") {
           tie = true;
-        } else if (rivalInput === "paper" || rivalInput === "spock") {
+        } else if (rivalInput === "Paper" || rivalInput === "Spock") {
           userScore++;
-        } else if (rivalInput === "rock" || rivalInput === "scissors") {
+        } else if (rivalInput === "Rock" || rivalInput === "Scissors") {
           rivalScore++;
         }
         break;
-      case "spock":
-        if (rivalInput === "spock") {
+      case "Spock":
+        if (rivalInput === "Spock") {
           tie = true;
-        } else if (rivalInput === "rock" || rivalInput === "scissors") {
+        } else if (rivalInput === "Rock" || rivalInput === "Scissors") {
           userScore++;
-        } else if (rivalInput === "paper" || rivalInput === "lizard") {
+        } else if (rivalInput === "Paper" || rivalInput === "Lizard") {
           rivalScore++;
         }
         break;
     }
-    dialogueBox.textContent = `Player 1 chose ${userInput}, Player 2 chose ${rivalInput}`;
+    dialogueBox.textContent = `Player 1 chose ${userInput}, Player 2 chose ${rivalInput}... `;
     if (tie === true) {
-      dialogueBox.textContent = "You tied, try again";
+      dialogueBox.textContent += "You tied, try again";
       tie = false;
     } else if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
       // Runs after the game is finished
@@ -133,9 +140,9 @@ function GameStart(gameCountGoal, duelMode) {
       rivalScoreTally.textContent = `P2: ${rivalScore}`;
       DisplayOff(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
       if (userScore > rivalScore) {
-        dialogueBox.textContent = "Player 1 Wins!";
+        dialogueBox.textContent += "Player 1 Wins!";
       } else {
-        dialogueBox.textContent = "Player 2 Wins!";
+        dialogueBox.textContent += "Player 2 Wins!";
       }
       // Runs after winner is declared
       DisplayOn(replayBtn);
