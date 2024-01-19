@@ -3,6 +3,7 @@ import { DisplayOff } from "./app.js";
 let dialogueBox = document.getElementById("main-text");
 let userScoreTally = document.getElementById("user-score-tally");
 let rivalScoreTally = document.getElementById("rival-score-tally");
+let userTurnText = document.getElementById("user-turn");
 let rockBtn = document.getElementById("rock-btn");
 let paperBtn = document.getElementById("paper-btn");
 let scissorsBtn = document.getElementById("scissors-btn");
@@ -11,6 +12,7 @@ let spockBtn = document.getElementById("spock-btn");
 let replayBtn = document.getElementById("replay-btn");
 let oneVsOne = document.getElementById("oneVsOne");
 let oneVsCpu = document.getElementById("oneVsCpu");
+let elipses;
 
 function GameStart(gameCountGoal, duelMode) {
   let userScore = 0;
@@ -20,9 +22,9 @@ function GameStart(gameCountGoal, duelMode) {
   let rivalInput = "Paper";
   DisplayOn(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
   Player1Turn();
-  DisplayOn(userScoreTally, rivalScoreTally);
-  userScoreTally.textContent = `P1: ${userScore}`;
-  rivalScoreTally.textContent = `P2: ${rivalScore}`;
+  DisplayOn(userScoreTally, rivalScoreTally, userTurnText);
+  CounterUpdate();
+
   dialogueBox.textContent =
     "Choose between Rock, Paper, Scissors, Lizard, or Spock";
 
@@ -36,6 +38,7 @@ function GameStart(gameCountGoal, duelMode) {
   }
 
   function Player1Turn() {
+    userTurnText.textContent = "Player 1's Turn";
     rockBtn.onclick = function () {
       ChoiceButtons(true, "Rock", Player2Turn);
     };
@@ -53,8 +56,9 @@ function GameStart(gameCountGoal, duelMode) {
     };
   }
 
-  function Player2Turn() {
+  async function Player2Turn() {
     if (duelMode) {
+      userTurnText.textContent = "Player 2's Turn";
       rockBtn.onclick = function () {
         ChoiceButtons(false, "Rock", GameJudge);
       };
@@ -71,6 +75,8 @@ function GameStart(gameCountGoal, duelMode) {
         ChoiceButtons(false, "Spock", GameJudge);
       };
     } else {
+      userTurnText.textContent = "Computer's Turn";
+      await delay(3000);
       ComputerTurn();
     }
   }
@@ -136,8 +142,7 @@ function GameStart(gameCountGoal, duelMode) {
       tie = false;
     } else if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
       // Runs after the game is finished
-      userScoreTally.textContent = `P1: ${userScore}`;
-      rivalScoreTally.textContent = `P2: ${rivalScore}`;
+      CounterUpdate();
       DisplayOff(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
       if (userScore > rivalScore) {
         dialogueBox.textContent += "Player 1 Wins!";
@@ -146,18 +151,27 @@ function GameStart(gameCountGoal, duelMode) {
       }
       // Runs after winner is declared
       DisplayOn(replayBtn);
+      userTurnText.textContent = "GAME OVER";
       replayBtn.onclick = function () {
         userScore = 0;
         rivalScore = 0;
         DisplayOn(oneVsOne, oneVsCpu);
-        DisplayOff(replayBtn, userScoreTally, rivalScoreTally);
+        DisplayOff(replayBtn, userScoreTally, rivalScoreTally, userTurnText);
         dialogueBox.textContent = "Choose your game mode";
       };
     } else {
-      userScoreTally.textContent = `P1: ${userScore}`;
-      rivalScoreTally.textContent = `P2: ${rivalScore}`;
+      CounterUpdate();
+      Player1Turn();
     }
-    Player1Turn();
   }
+
+  function CounterUpdate() {
+    userScoreTally.textContent = `P1: ${userScore}`;
+    rivalScoreTally.textContent = `P2: ${rivalScore}`;
+  }
+
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  // Declares delay variable, intended for use with async functions
+  // Credit to Etienne Martin on Stack Overflow https://stackoverflow.com/a/47480429
 }
 export { GameStart };

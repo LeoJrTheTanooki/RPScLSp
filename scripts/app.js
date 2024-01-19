@@ -12,31 +12,31 @@ let dummyElm = document.getElementById("dummy");
 oneVsOne.addEventListener("click", function (e) {
   duelMode = true;
   DisplayOff(oneVsOne, oneVsCpu);
-  DisplayOn(oneRound, threeRounds, fourRounds, debugInfinite);
+  DisplayOn(oneRound, threeRounds, fourRounds);
   dialogueBox.textContent = "Now choose your rounds";
 });
 oneVsCpu.addEventListener("click", function (e) {
   duelMode = false;
   DisplayOff(oneVsOne, oneVsCpu);
-  DisplayOn(oneRound, threeRounds, fourRounds, debugInfinite);
+  DisplayOn(oneRound, threeRounds, fourRounds);
   dialogueBox.textContent = "Now choose your rounds";
 });
 oneRound.addEventListener("click", function (e) {
   GameStart(1, duelMode);
-  DisplayOff(oneRound, threeRounds, fourRounds, debugInfinite);
+  DisplayOff(oneRound, threeRounds, fourRounds);
 });
 threeRounds.addEventListener("click", function (e) {
   GameStart(3, duelMode);
-  DisplayOff(oneRound, threeRounds, fourRounds, debugInfinite);
+  DisplayOff(oneRound, threeRounds, fourRounds);
 });
 fourRounds.addEventListener("click", function (e) {
   GameStart(4, duelMode);
-  DisplayOff(oneRound, threeRounds, fourRounds, debugInfinite);
+  DisplayOff(oneRound, threeRounds, fourRounds);
 });
-debugInfinite.addEventListener("click", function (e) {
-  GameStart(99, duelMode);
-  DisplayOff(oneRound, threeRounds, fourRounds, debugInfinite);
-});
+// debugInfinite.addEventListener("click", function (e) {
+//   GameStart(99, duelMode);
+//   DisplayOff(oneRound, threeRounds, fourRounds, degbugInfinite;
+// });
 
 function DisplayOff(
   variable1 = dummyElm,
