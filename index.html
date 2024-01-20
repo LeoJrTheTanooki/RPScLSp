@@ -10,14 +10,16 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./styles/nes.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <style>
+    <link rel="stylesheet" href="./styles/nes.min.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+
+    <!-- <style>
       .container,
       .container-fluid {
         border: solid red;
@@ -76,18 +78,19 @@
       .col {
         border: solid yellow;
       }
-    </style>
+    </style> -->
   </head>
   <body>
-    <div class="container">
-      <div class="row">
+    <div class="container pt-5">
+      <div class="row nes-container is-dark with-title gy-2">
+        <p class="title" style="width: auto">
+          Rock Paper Scissors Lizard Spock
+        </p>
         <div class="col-12">
-          <h1>Rock Paper Scissors Lizard Spock</h1>
           <!-- <h2>Based on the worst sitcom of all time</h2> -->
         </div>
-        <hr />
-        <div class="col-6" style="border-right: solid black 1px">
-          <h3>Rules: The same as usual, albeit with added factors</h3>
+        <div class="col-6">
+          <p>Rules: The same as usual, albeit with added factors</p>
           <ul>
             <li>Rock smashes Scissors</li>
             <li>Scissors cuts Paper</li>
@@ -103,9 +106,9 @@
         </div>
         <div class="col-6">
           <img
-            src="./assets/RockPaperScissorsLizardSpock.jpg"
+            src="./assets/RPScLSp_Guide.png"
             alt=""
-            width="100%"
+            width="320px"
           />
         </div>
         <div class="col-12 text-center">
@@ -182,13 +185,13 @@
           </button>
         </div>
         <div class="col text-center">
-          <p id="user-turn" class="d-none">GAME OVER</p>
-          <p id="user-score-tally" class="d-none">P1: 0</p>
-          <p id="rival-score-tally" class="d-none">P2: 0</p>
+          <p id="user-turn">GAME OVER</p>
+          <p id="user-score-tally">P1: 0</p>
+          <p id="rival-score-tally">P2: 0</p>
         </div>
       </div>
+      <span id="dummy"></span>
     </div>
-    <span id="dummy"></span>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
