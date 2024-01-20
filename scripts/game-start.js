@@ -37,8 +37,39 @@ function GameStart(gameCountGoal, duelMode) {
     Method();
   }
 
+  function ButtonColor(colorAdd, colorRemove) {
+    rockBtn.classList.add(colorAdd);
+    paperBtn.classList.add(colorAdd);
+    scissorsBtn.classList.add(colorAdd);
+    lizardBtn.classList.add(colorAdd);
+    spockBtn.classList.add(colorAdd);
+    rockBtn.classList.remove(colorRemove);
+    paperBtn.classList.remove(colorRemove);
+    scissorsBtn.classList.remove(colorRemove);
+    lizardBtn.classList.remove(colorRemove);
+    spockBtn.classList.remove(colorRemove);
+  }
+
+  function ButtonColor(colorAdd, colorRemove) {
+    rockBtn.classList.add(colorAdd);
+    paperBtn.classList.add(colorAdd);
+    scissorsBtn.classList.add(colorAdd);
+    lizardBtn.classList.add(colorAdd);
+    spockBtn.classList.add(colorAdd);
+    rockBtn.classList.remove(colorRemove);
+    paperBtn.classList.remove(colorRemove);
+    scissorsBtn.classList.remove(colorRemove);
+    lizardBtn.classList.remove(colorRemove);
+    spockBtn.classList.remove(colorRemove);
+  }
+
   function Player1Turn() {
     userTurnText.textContent = "Player 1's Turn";
+    if (duelMode) {
+      ButtonColor("is-primary", "is-error");
+    } else {
+      ButtonColor("is-primary", "is-disabled");
+    }
     rockBtn.onclick = function () {
       ChoiceButtons(true, "Rock", Player2Turn);
     };
@@ -54,11 +85,39 @@ function GameStart(gameCountGoal, duelMode) {
     spockBtn.onclick = function () {
       ChoiceButtons(true, "Spock", Player2Turn);
     };
+    // rockBtn.addEventListener("click", ChoiceButtons(true, "Rock", Player2Turn));
+    // paperBtn.addEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Paper", Player2Turn);
+    // });
+    // scissorsBtn.addEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Scissors", Player2Turn);
+    // });
+    // lizardBtn.addEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Lizard", Player2Turn);
+    // });
+    // spockBtn.addEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Spock", Player2Turn);
+    // });
   }
 
+  // Attempted to add and remove event listeners depending on turn
   async function Player2Turn() {
+    // rockBtn.removeEventListener("click", ChoiceButtons(true, "Rock", Player2Turn));
+    // paperBtn.removeEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Paper", Player2Turn);
+    // });
+    // scissorsBtn.removeEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Scissors", Player2Turn);
+    // });
+    // lizardBtn.removeEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Lizard", Player2Turn);
+    // });
+    // spockBtn.removeEventListener("click", function (e) {
+    //   ChoiceButtons(true, "Spock", Player2Turn);
+    // });
     if (duelMode) {
       userTurnText.textContent = "Player 2's Turn";
+      ButtonColor("is-error", "is-primary");
       rockBtn.onclick = function () {
         ChoiceButtons(false, "Rock", GameJudge);
       };
@@ -74,9 +133,26 @@ function GameStart(gameCountGoal, duelMode) {
       spockBtn.onclick = function () {
         ChoiceButtons(false, "Spock", GameJudge);
       };
+      // rockBtn.addEventListener("click", function (e) {
+      //   ChoiceButtons(false, "Rock", GameJudge);
+      // });
+      // paperBtn.addEventListener("click", function (e) {
+      //   ChoiceButtons(false, "Paper", GameJudge);
+      // });
+      // scissorsBtn.addEventListener("click", function (e) {
+      //   ChoiceButtons(false, "Scissors", GameJudge);
+      // });
+      // lizardBtn.addEventListener("click", function (e) {
+      //   ChoiceButtons(false, "Lizard", GameJudge);
+      // });
+      // spockBtn.addEventListener("click", function (e) {
+      //   ChoiceButtons(false, "Spock", GameJudge);
+      // });
     } else {
-      userTurnText.textContent = "Computer's Turn";
-      await delay(3000);
+      // Attempted to make player wait for computer to make choice
+      // userTurnText.textContent = "Computer's Turn";
+      // ButtonColor("is-disabled", "is-primary");
+      // await delay(3000);
       ComputerTurn();
     }
   }
@@ -140,6 +216,7 @@ function GameStart(gameCountGoal, duelMode) {
     if (tie === true) {
       dialogueBox.textContent += "You tied, try again";
       tie = false;
+      Player1Turn();
     } else if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
       // Runs after the game is finished
       CounterUpdate();
@@ -156,8 +233,9 @@ function GameStart(gameCountGoal, duelMode) {
         userScore = 0;
         rivalScore = 0;
         DisplayOn(oneVsOne, oneVsCpu);
-        DisplayOff(replayBtn, userScoreTally, rivalScoreTally, userTurnText);
+        DisplayOff(replayBtn);
         dialogueBox.textContent = "Choose your game mode";
+        CounterUpdate();
       };
     } else {
       CounterUpdate();
