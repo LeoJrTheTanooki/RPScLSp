@@ -17,9 +17,8 @@ let elipses;
 function GameStart(gameCountGoal, duelMode) {
   let userScore = 0;
   let rivalScore = 0;
-  let tie;
   let userInput;
-  let rivalInput = "Paper";
+  let rivalInput;
   DisplayOn(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
   Player1Turn();
   DisplayOn(userScoreTally, rivalScoreTally, userTurnText);
@@ -65,11 +64,12 @@ function GameStart(gameCountGoal, duelMode) {
 
   function Player1Turn() {
     userTurnText.textContent = "Player 1's Turn";
-    if (duelMode) {
-      ButtonColor("is-primary", "is-error");
-    } else {
-      ButtonColor("is-primary", "is-disabled");
-    }
+    ButtonColor("is-primary", "is-error");
+    // if (duelMode) {
+    //   ButtonColor("is-primary", "is-error");
+    // } else {
+    //   ButtonColor("is-primary", "is-disabled");
+    // }
     rockBtn.onclick = function () {
       ChoiceButtons(true, "Rock", Player2Turn);
     };
@@ -165,66 +165,129 @@ function GameStart(gameCountGoal, duelMode) {
   }
 
   function GameJudge() {
-    switch (userInput) {
-      case "Rock":
-        if (rivalInput === "Rock") {
-          tie = true;
-        } else if (rivalInput === "Scissors" || rivalInput === "Lizard") {
-          userScore++;
-        } else if (rivalInput === "Paper" || rivalInput === "Spock") {
-          rivalScore++;
-        }
-        break;
-      case "Paper":
-        if (rivalInput === "Paper") {
-          tie = true;
-        } else if (rivalInput === "Rock" || rivalInput === "Spock") {
-          userScore++;
-        } else if (rivalInput === "Scissors" || rivalInput === "Lizard") {
-          rivalScore++;
-        }
-        break;
-      case "Scissors":
-        if (rivalInput === "Scissors") {
-          tie = true;
-        } else if (rivalInput === "Paper" || rivalInput === "Lizard") {
-          userScore++;
-        } else if (rivalInput === "Rock" || rivalInput === "Spock") {
-          rivalScore++;
-        }
-        break;
-      case "Lizard":
-        if (rivalInput === "Lizard") {
-          tie = true;
-        } else if (rivalInput === "Paper" || rivalInput === "Spock") {
-          userScore++;
-        } else if (rivalInput === "Rock" || rivalInput === "Scissors") {
-          rivalScore++;
-        }
-        break;
-      case "Spock":
-        if (rivalInput === "Spock") {
-          tie = true;
-        } else if (rivalInput === "Rock" || rivalInput === "Scissors") {
-          userScore++;
-        } else if (rivalInput === "Paper" || rivalInput === "Lizard") {
-          rivalScore++;
-        }
-        break;
+    // Dialogue announcing who beat who
+    dialogueBox.textContent = userInput;
+    if (userInput !== rivalInput) {
+      switch (userInput) {
+        case "Rock":
+          switch (rivalInput) {
+            case "Paper":
+              dialogueBox.textContent += " gets covered by";
+              rivalScore++;
+              break;
+            case "Scissors":
+              dialogueBox.textContent += " smashes";
+              userScore++;
+              break;
+            case "Lizard":
+              dialogueBox.textContent += " crushes";
+              userScore++;
+              break;
+            case "Spock":
+              dialogueBox.textContent += " gets vaporized by";
+              rivalScore++;
+              break;
+          }
+          break;
+
+        case "Paper":
+          switch (rivalInput) {
+            case "Rock":
+              dialogueBox.textContent += " covers";
+              userScore++;
+              break;
+            case "Scissors":
+              dialogueBox.textContent += " gets cut by";
+              rivalScore++;
+              break;
+            case "Lizard":
+              dialogueBox.textContent += " gets eaten by ";
+              rivalScore++;
+              break;
+            case "Spock":
+              dialogueBox.textContent += " disproves";
+              userScore++;
+              break;
+          }
+          break;
+
+        case "Scissors":
+          switch (rivalInput) {
+            case "Rock":
+              dialogueBox.textContent += " gets smashed by";
+              rivalScore++;
+              break;
+            case "Paper":
+              dialogueBox.textContent += " cuts";
+              userScore++;
+              break;
+            case "Lizard":
+              dialogueBox.textContent += " decapitates";
+              userScore++;
+              break;
+            case "Spock":
+              dialogueBox.textContent += " gets smashed by";
+              rivalScore++;
+              break;
+          }
+          break;
+
+        case "Lizard":
+          switch (rivalInput) {
+            case "Rock":
+              dialogueBox.textContent += " gets crushed by";
+              rivalScore++;
+              break;
+            case "Paper":
+              dialogueBox.textContent += " eats";
+              userScore++;
+              break;
+            case "Scissors":
+              dialogueBox.textContent += " gets decapitated by";
+              rivalScore++;
+              break;
+            case "Spock":
+              dialogueBox.textContent += " poisons";
+              userScore++;
+              break;
+          }
+          break;
+
+        case "Spock":
+          switch (rivalInput) {
+            case "Rock":
+              dialogueBox.textContent += " vaporizes";
+              userScore++;
+              break;
+            case "Paper":
+              dialogueBox.textContent += " gets disproved by";
+              rivalScore++;
+              break;
+            case "Scissors":
+              dialogueBox.textContent += " smashes";
+              userScore++;
+              break;
+            case "Lizard":
+              dialogueBox.textContent += " gets poisoned by";
+              rivalScore++;
+              break;
+          }
+          break;
+      }
+      dialogueBox.textContent += ` ${rivalInput}!`;
+    } else {
+      dialogueBox.textContent += ` and ${rivalInput} cancelled each other out, it's a tie!`;
     }
-    dialogueBox.textContent = `Player 1 chose ${userInput}, Player 2 chose ${rivalInput}... `;
-    if (tie === true) {
-      dialogueBox.textContent += "You tied, try again";
-      tie = false;
-      Player1Turn();
-    } else if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
+    // default:
+
+    if (userScore >= gameCountGoal || rivalScore >= gameCountGoal) {
       // Runs after the game is finished
       CounterUpdate();
       DisplayOff(rockBtn, paperBtn, scissorsBtn, lizardBtn, spockBtn);
       if (userScore > rivalScore) {
-        dialogueBox.textContent += "Player 1 Wins!";
+        dialogueBox.textContent += " Player 1 Wins!";
       } else {
-        dialogueBox.textContent += "Player 2 Wins!";
+        dialogueBox.textContent += " Player 2 Wins!";
       }
       // Runs after winner is declared
       DisplayOn(replayBtn);
@@ -240,12 +303,14 @@ function GameStart(gameCountGoal, duelMode) {
     } else {
       CounterUpdate();
       Player1Turn();
+      userInput = "";
+      rivalInput = "";
     }
   }
 
   function CounterUpdate() {
-    userScoreTally.textContent = `P1: ${userScore}`;
-    rivalScoreTally.textContent = `P2: ${rivalScore}`;
+    userScoreTally.textContent = `Score: ${userScore}`;
+    rivalScoreTally.textContent = `Score: ${rivalScore}`;
   }
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));

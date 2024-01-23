@@ -79,6 +79,7 @@
         border: solid yellow;
       }
     </style> -->
+    
   </head>
   <body>
     <div class="container pt-5">
@@ -89,9 +90,10 @@
         <div class="col-12">
           <!-- <h2>Based on the worst sitcom of all time</h2> -->
         </div>
-        <div class="col-6">
-          <p>Rules: The same as usual, albeit with added factors</p>
+        <div class="col-md-6 col-12">
+          <p>Rules: The same as usual, albeit with added factors<!-- <br> What are those factors...? You'll see for yourself--></p>
           <ul>
+            <!-- Make all the items here unknown until the player gets said outcome -->
             <li>Rock smashes Scissors</li>
             <li>Scissors cuts Paper</li>
             <li>Paper covers Rock</li>
@@ -104,11 +106,12 @@
             <li>Spock vaporizes Rock</li>
           </ul>
         </div>
-        <div class="col-6">
+        <div class="col-md-6 col-12">
           <img
             src="./assets/RPScLSp_Guide.png"
             alt=""
             width="320px"
+            style="max-width: 100%;"
           />
         </div>
         <div class="col-12 text-center">
@@ -138,13 +141,6 @@
           >
             4 - 7 Rounds
           </button>
-          <!-- <button
-            id="debugInfinite"
-            class="nes-btn d-none"
-            type="submit"
-          >
-            99 rounds (DEBUG)
-          </button> -->
           <button id="rock-btn" class="nes-btn d-none" type="submit">
             Rock
           </button>
@@ -184,11 +180,26 @@
             Replay
           </button>
         </div>
-        <div class="col text-center">
-          <p id="user-turn">GAME OVER</p>
-          <p id="user-score-tally">P1: 0</p>
-          <p id="rival-score-tally">P2: 0</p>
+        <div class="col-12 col-sm-6 text-center col-md-4">
+          <div class="nes-field">
+            <label for="player-1-name">Player 1</label>
+            <!-- <input type="text" id="player-1-name" class="nes-input"> -->
+            <p id="user-score-tally">Score: 0</p>
+          </div>
         </div>
+        <div class="col-4 text-center d-none d-md-inline">
+          <p id="user-turn">GAME OVER</p>
+          <!-- <p id="user-score-tally">P1: 0</p>
+            <p id="rival-score-tally">P2: 0</p> -->
+        </div>
+        <div class="col-12 col-sm-6 text-center col-md-4">
+          <div class="nes-field">
+            <label for="player-1-name">Player 2</label>
+            <!-- <input type="text" id="player-2-name" class="nes-input"> -->
+            <p id="rival-score-tally">Score: 0</p>
+          </div>
+        </div>
+        <p class="text-center">API used belongs to Codestack Academy</p>
       </div>
       <span id="dummy"></span>
     </div>
